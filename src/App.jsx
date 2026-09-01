@@ -14,6 +14,7 @@ import Books from "./pages/Books";
 import AddBook from "./pages/AddBook";
 import EditBook from "./pages/EditBook";
 import AdminRoute from "./routes/AdminRoute";
+import BookDetails from "./pages/BookDetails";
 
 function App() {
 
@@ -74,6 +75,15 @@ function App() {
                             <AdminRoute>
                                 <EditBook />
                             </AdminRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/books/:id"
+                        element={
+                            <ProtectedRoute>
+                                <BookDetails />
+                            </ProtectedRoute>
                         }
                     />
 

@@ -22,24 +22,33 @@ function BookCard({ book, onDelete }) {
     return (
         <div className="book-card">
 
-            {book.imageUrl && (
+            {book.imageUrl ? (
+
                 <img
                     src={book.imageUrl}
                     alt={book.title}
                     className="book-image"
                 />
+
+            ) : (
+
+                <div className="book-image-placeholder">
+                    📚
+                </div>
+
             )}
 
+
             <div className="book-card-content">
+
+                <p className="book-category">
+                    {book.category}
+                </p>
 
                 <h3>{book.title}</h3>
 
                 <p className="book-author">
                     by {book.author}
-                </p>
-
-                <p className="book-category">
-                    {book.category}
                 </p>
 
                 <p className="book-description">
@@ -50,13 +59,27 @@ function BookCard({ book, onDelete }) {
                     ₹{book.price}
                 </p>
 
-                <p>
-                    Stock: {book.quantity}
+                <p className="book-stock">
+                    {book.quantity > 0
+                        ? `Stock: ${book.quantity}`
+                        : "Out of Stock"
+                    }
                 </p>
 
-                {isAdmin ? (
 
-                    /* Admin Actions */
+                {/* ================= VIEW DETAILS ================= */}
+
+                <Link
+                    to={`/books/${book.id}`}
+                    className="view-details-button"
+                >
+                    View Details
+                </Link>
+
+
+                {/* ================= ADMIN ================= */}
+
+                {isAdmin ? (
 
                     <div className="book-actions">
 
@@ -68,7 +91,9 @@ function BookCard({ book, onDelete }) {
                         </Link>
 
                         <button
-                            onClick={() => onDelete(book.id)}
+                            onClick={() =>
+                                onDelete(book.id)
+                            }
                             className="delete-button"
                         >
                             Delete
@@ -78,7 +103,7 @@ function BookCard({ book, onDelete }) {
 
                 ) : (
 
-                    /*User Actions*/
+                    /* ================= USER ================= */
 
                     <div className="user-book-actions">
 
@@ -92,6 +117,7 @@ function BookCard({ book, onDelete }) {
                         <button
                             onClick={handleCart}
                             className="cart-button"
+                            disabled={book.quantity <= 0}
                         >
                             🛒 Add to Cart
                         </button>
@@ -99,6 +125,7 @@ function BookCard({ book, onDelete }) {
                         <button
                             onClick={handleBuyNow}
                             className="buy-button"
+                            disabled={book.quantity <= 0}
                         >
                             ⚡ Buy Now
                         </button>
