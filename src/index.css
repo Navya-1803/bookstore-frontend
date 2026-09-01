@@ -1,8 +1,327 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color: #1f2937;
+    background-color: #f5f7fb;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
 }
 
-#root {
-    padding: 20px;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+a {
+    text-decoration: none;
+}
+
+/*app*/
+
+.app {
+    min-height: 100vh;
+}
+
+/*Navbar*/
+
+.navbar {
+    height: 64px;
+    padding: 0 8%;
+    background-color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.brand {
+    color: #2563eb;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navbar nav a {
+    color: #374151;
+    font-weight: 500;
+}
+
+.navbar nav a:hover {
+    color: #2563eb;
+}
+
+.nav-logout {
+    border: none;
+    background: none;
+    color: #dc2626;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.nav-logout:hover {
+    color: #991b1b;
+}
+
+/*Main Content*/
+
+.main-content {
+    min-height: calc(100vh - 64px);
+
+    display: flex;
+    justify-content: center;
+
+    padding: 50px 20px;
+}
+
+/*Auth Card*/
+
+.auth-card {
+    width: 100%;
+    max-width: 420px;
+    height: fit-content;
+
+    background-color: #ffffff;
+
+    padding: 36px;
+
+    border-radius: 12px;
+
+    box-shadow:
+            0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+
+    text-align: center;
+
+    font-size: 28px;
+}
+
+.auth-subtitle {
+    margin-top: 0;
+    margin-bottom: 28px;
+
+    text-align: center;
+
+    color: #6b7280;
+}
+
+/*Form*/
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+.form-group input {
+    width: 100%;
+
+    padding: 11px 13px;
+
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+
+    outline: none;
+
+    transition:
+            border-color 0.2s,
+            box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #2563eb;
+
+    box-shadow:
+            0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/*Primary Button*/
+
+.primary-button {
+    width: 100%;
+
+    padding: 12px;
+
+    border: none;
+    border-radius: 7px;
+
+    background-color: #2563eb;
+    color: #ffffff;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+}
+
+.primary-button:hover {
+    background-color: #1d4ed8;
+}
+
+/*Auth-footer*/
+
+.auth-footer {
+    margin-top: 22px;
+
+    text-align: center;
+
+    color: #6b7280;
+}
+
+.auth-footer a {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+/*Message*/
+
+.success-message {
+    margin-top: 16px;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    background-color: #ecfdf5;
+    color: #047857;
+
+    text-align: center;
+}
+
+.error-message {
+    margin-top: 16px;
+
+    padding: 10px;
+
+    border-radius: 6px;
+
+    background-color: #fef2f2;
+    color: #dc2626;
+
+    text-align: center;
+}
+
+/*Profile*/
+
+.profile-container {
+    width: 100%;
+    max-width: 700px;
+}
+
+.profile-header {
+    margin-bottom: 24px;
+}
+
+.profile-header h2 {
+    margin-bottom: 5px;
+
+    font-size: 30px;
+}
+
+.profile-header p {
+    margin-top: 0;
+
+    color: #6b7280;
+}
+
+.profile-card {
+    background-color: #ffffff;
+
+    padding: 30px;
+
+    margin-bottom: 24px;
+
+    border-radius: 12px;
+
+    box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.profile-info {
+    display: grid;
+
+    grid-template-columns: 120px 1fr;
+
+    row-gap: 16px;
+
+    margin-bottom: 30px;
+}
+
+.profile-label {
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.profile-value {
+    color: #111827;
+}
+
+/*Responsive*/
+
+@media (max-width: 600px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .navbar nav {
+        gap: 12px;
+    }
+
+    .main-content {
+        padding: 30px 15px;
+    }
+
+    .auth-card {
+        padding: 25px;
+    }
+
+    .profile-card {
+        padding: 20px;
+    }
+
+    .profile-info {
+        grid-template-columns: 1fr;
+        row-gap: 5px;
+    }
+
+    .profile-value {
+        margin-bottom: 10px;
+    }
 }

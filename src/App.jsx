@@ -1,26 +1,56 @@
-import { useEffect, useState } from "react";
-import api from "./services/api";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+    Navigate
+} from "react-router-dom";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Layout from "./components/Layout";
 
 function App() {
 
-    const [message, setMessage] = useState("");
-
-    useEffect(() => {
-        api.get("/health")
-            .then(response => {
-                setMessage(response.data);
-            })
-            .catch(error => {
-                console.error("Backend connection error:", error);
-                setMessage("Unable to connect to backend");
-            });
-    }, []);
-
     return (
-        <div>
-            <h1>Bookstore E-Commerce</h1>
-            <p>{message}</p>
-        </div>
+        <BrowserRouter>
+
+            <Layout>
+
+                <Routes>
+
+                    <Route
+                        path="/"
+                        element={
+                            <Navigate to="/login" />
+                        }
+                    />
+
+                    <Route
+                        path="/login"
+                        element={<Login />}
+                    />
+
+                    <Route
+                        path="/register"
+                        element={<Register />}
+                    />
+
+                    <Route
+                        path="/profile"
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                </Routes>
+
+            </Layout>
+
+        </BrowserRouter>
     );
 }
 
