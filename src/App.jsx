@@ -10,6 +10,9 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./components/Layout";
+import Books from "./pages/Books";
+import AddBook from "./pages/AddBook";
+import EditBook from "./pages/EditBook";
 
 function App() {
 
@@ -42,6 +45,33 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/books"
+                        element={
+                            <ProtectedRoute>
+                                <Books />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/books/add"
+                        element={
+                            <ProtectedRoute>
+                                <AddBook />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/books/edit/:id"
+                        element={
+                            <ProtectedRoute>
+                                <EditBook />
                             </ProtectedRoute>
                         }
                     />

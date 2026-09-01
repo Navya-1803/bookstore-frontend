@@ -24,6 +24,10 @@ function Layout({ children }) {
 
                     {isAuthenticated ? (
                         <>
+                            <Link to="/books">
+                                Books
+                            </Link>
+
                             <Link to="/profile">
                                 Profile
                             </Link>
