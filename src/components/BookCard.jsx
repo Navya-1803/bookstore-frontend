@@ -1,6 +1,23 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function BookCard({ book, onDelete }) {
+
+    const { user } = useAuth();
+
+    const isAdmin = user?.role === "ADMIN";
+
+    const handleWishlist = () => {
+        alert(`"${book.title}" added to wishlist.`);
+    };
+
+    const handleCart = () => {
+        alert(`"${book.title}" added to cart.`);
+    };
+
+    const handleBuyNow = () => {
+        alert(`Buy Now selected for "${book.title}".`);
+    };
 
     return (
         <div className="book-card">
@@ -37,23 +54,58 @@ function BookCard({ book, onDelete }) {
                     Stock: {book.quantity}
                 </p>
 
-                <div className="book-actions">
+                {isAdmin ? (
 
-                    <Link
-                        to={`/books/edit/${book.id}`}
-                        className="edit-button"
-                    >
-                        Edit
-                    </Link>
+                    /* Admin Actions */
 
-                    <button
-                        onClick={() => onDelete(book.id)}
-                        className="delete-button"
-                    >
-                        Delete
-                    </button>
+                    <div className="book-actions">
 
-                </div>
+                        <Link
+                            to={`/books/edit/${book.id}`}
+                            className="edit-button"
+                        >
+                            Edit
+                        </Link>
+
+                        <button
+                            onClick={() => onDelete(book.id)}
+                            className="delete-button"
+                        >
+                            Delete
+                        </button>
+
+                    </div>
+
+                ) : (
+
+                    /*User Actions*/
+
+                    <div className="user-book-actions">
+
+                        <button
+                            onClick={handleWishlist}
+                            className="wishlist-button"
+                        >
+                            ❤️ Wishlist
+                        </button>
+
+                        <button
+                            onClick={handleCart}
+                            className="cart-button"
+                        >
+                            🛒 Add to Cart
+                        </button>
+
+                        <button
+                            onClick={handleBuyNow}
+                            className="buy-button"
+                        >
+                            ⚡ Buy Now
+                        </button>
+
+                    </div>
+
+                )}
 
             </div>
 

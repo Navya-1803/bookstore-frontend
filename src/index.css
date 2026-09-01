@@ -540,3 +540,51 @@ a {
         grid-template-columns: 1fr;
     }
 }
+
+/* User Book Actions */
+
+.user-book-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.wishlist-button,
+.cart-button,
+.buy-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.wishlist-button {
+    background-color: #fff1f2;
+    color: #e11d48;
+}
+
+.wishlist-button:hover {
+    background-color: #ffe4e6;
+}
+
+.cart-button {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.cart-button:hover {
+    background-color: #dbeafe;
+}
+
+.buy-button {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.buy-button:hover {
+    background-color: #1d4ed8;
+}

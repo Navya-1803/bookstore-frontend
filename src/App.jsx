@@ -13,6 +13,7 @@ import Layout from "./components/Layout";
 import Books from "./pages/Books";
 import AddBook from "./pages/AddBook";
 import EditBook from "./pages/EditBook";
+import AdminRoute from "./routes/AdminRoute";
 
 function App() {
 
@@ -61,18 +62,18 @@ function App() {
                     <Route
                         path="/books/add"
                         element={
-                            <ProtectedRoute>
+                            <AdminRoute>
                                 <AddBook />
-                            </ProtectedRoute>
+                            </AdminRoute>
                         }
                     />
 
                     <Route
                         path="/books/edit/:id"
                         element={
-                            <ProtectedRoute>
+                            <AdminRoute>
                                 <EditBook />
-                            </ProtectedRoute>
+                            </AdminRoute>
                         }
                     />
 
