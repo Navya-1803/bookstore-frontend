@@ -8,13 +8,14 @@ import {
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import ProtectedRoute from "./routes/ProtectedRoute";
-import Layout from "./components/Layout";
 import Books from "./pages/Books";
+import Cart from "./pages/Cart";
+
 import AddBook from "./pages/AddBook";
 import EditBook from "./pages/EditBook";
-import AdminRoute from "./routes/AdminRoute";
-import BookDetails from "./pages/BookDetails";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
+import Layout from "./components/Layout";
 
 function App() {
 
@@ -25,12 +26,16 @@ function App() {
 
                 <Routes>
 
+                    {/* HOME */}
+
                     <Route
                         path="/"
                         element={
                             <Navigate to="/login" />
                         }
                     />
+
+                    {/* AUTH */}
 
                     <Route
                         path="/login"
@@ -42,6 +47,8 @@ function App() {
                         element={<Register />}
                     />
 
+                    {/* PROFILE */}
+
                     <Route
                         path="/profile"
                         element={
@@ -50,6 +57,8 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
+
+                    {/* BOOKS */}
 
                     <Route
                         path="/books"
@@ -60,30 +69,43 @@ function App() {
                         }
                     />
 
+                    {/* ADMIN BOOK MANAGEMENT */}
+
                     <Route
                         path="/books/add"
                         element={
-                            <AdminRoute>
+                            <ProtectedRoute>
                                 <AddBook />
-                            </AdminRoute>
+                            </ProtectedRoute>
                         }
                     />
 
                     <Route
                         path="/books/edit/:id"
                         element={
-                            <AdminRoute>
+                            <ProtectedRoute>
                                 <EditBook />
-                            </AdminRoute>
+                            </ProtectedRoute>
                         }
                     />
 
+                    {/* CART */}
+
                     <Route
-                        path="/books/:id"
+                        path="/cart"
                         element={
                             <ProtectedRoute>
-                                <BookDetails />
+                                <Cart />
                             </ProtectedRoute>
+                        }
+                    />
+
+                    {/* FALLBACK */}
+
+                    <Route
+                        path="*"
+                        element={
+                            <Navigate to="/books" />
                         }
                     />
 

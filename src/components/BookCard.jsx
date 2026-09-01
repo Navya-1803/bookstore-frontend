@@ -1,54 +1,68 @@
 import { Link } from "react-router-dom";
+
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 function BookCard({ book, onDelete }) {
 
     const { user } = useAuth();
 
-    const isAdmin = user?.role === "ADMIN";
+    const {
+        addToCart
+    } = useCart();
 
-    const handleWishlist = () => {
-        alert(`"${book.title}" added to wishlist.`);
-    };
+    const isAdmin =
+        user?.role === "ADMIN";
 
-    const handleCart = () => {
-        alert(`"${book.title}" added to cart.`);
-    };
+    const isUser =
+        user?.role === "USER";
 
-    const handleBuyNow = () => {
-        alert(`Buy Now selected for "${book.title}".`);
+    // ---------------------------------------------------------
+    // ADD TO CART
+    // ---------------------------------------------------------
+
+    const handleAddToCart = async () => {
+
+        const result =
+            await addToCart(book.id, 1);
+
+        if (result.success) {
+
+            alert(
+                `${book.title} added to cart`
+            );
+
+        } else {
+
+            const message =
+                result.error?.response?.data?.message ||
+                "Unable to add book to cart.";
+
+            alert(message);
+        }
     };
 
     return (
         <div className="book-card">
 
-            {book.imageUrl ? (
-
+            {book.imageUrl && (
                 <img
                     src={book.imageUrl}
                     alt={book.title}
                     className="book-image"
                 />
-
-            ) : (
-
-                <div className="book-image-placeholder">
-                    📚
-                </div>
-
             )}
 
-
             <div className="book-card-content">
-
-                <p className="book-category">
-                    {book.category}
-                </p>
 
                 <h3>{book.title}</h3>
 
                 <p className="book-author">
                     by {book.author}
+                </p>
+
+                <p className="book-category">
+                    {book.category}
                 </p>
 
                 <p className="book-description">
@@ -59,28 +73,60 @@ function BookCard({ book, onDelete }) {
                     ₹{book.price}
                 </p>
 
-                <p className="book-stock">
-                    {book.quantity > 0
-                        ? `Stock: ${book.quantity}`
-                        : "Out of Stock"
+                <p
+                    className={
+                        book.quantity > 0
+                            ? "book-stock"
+                            : "book-stock out-of-stock"
                     }
+                >
+                    {book.quantity > 0
+                        ? `${book.quantity} available`
+                        : "Out of stock"}
                 </p>
 
+                {/* USER ACTIONS */}
 
-                {/* ================= VIEW DETAILS ================= */}
+                {isUser && (
+                    <div className="customer-book-actions">
 
-                <Link
-                    to={`/books/${book.id}`}
-                    className="view-details-button"
-                >
-                    View Details
-                </Link>
+                        <button
+                            className="wishlist-button"
+                            onClick={() =>
+                                alert(
+                                    "Wishlist functionality coming soon."
+                                )
+                            }
+                        >
+                            ♡ Wishlist
+                        </button>
 
+                        <button
+                            className="cart-button"
+                            onClick={handleAddToCart}
+                            disabled={book.quantity === 0}
+                        >
+                            🛒 Add to Cart
+                        </button>
 
-                {/* ================= ADMIN ================= */}
+                        <button
+                            className="buy-button"
+                            onClick={() =>
+                                alert(
+                                    "Buy Now functionality coming soon."
+                                )
+                            }
+                            disabled={book.quantity === 0}
+                        >
+                            Buy Now
+                        </button>
 
-                {isAdmin ? (
+                    </div>
+                )}
 
+                {/* ADMIN ACTIONS */}
+
+                {isAdmin && (
                     <div className="book-actions">
 
                         <Link
@@ -100,42 +146,9 @@ function BookCard({ book, onDelete }) {
                         </button>
 
                     </div>
-
-                ) : (
-
-                    /* ================= USER ================= */
-
-                    <div className="user-book-actions">
-
-                        <button
-                            onClick={handleWishlist}
-                            className="wishlist-button"
-                        >
-                            ❤️ Wishlist
-                        </button>
-
-                        <button
-                            onClick={handleCart}
-                            className="cart-button"
-                            disabled={book.quantity <= 0}
-                        >
-                            🛒 Add to Cart
-                        </button>
-
-                        <button
-                            onClick={handleBuyNow}
-                            className="buy-button"
-                            disabled={book.quantity <= 0}
-                        >
-                            ⚡ Buy Now
-                        </button>
-
-                    </div>
-
                 )}
 
             </div>
-
         </div>
     );
 }

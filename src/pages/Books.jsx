@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
 import api from "../services/api";
 import BookCard from "../components/BookCard";
 import { useAuth } from "../context/AuthContext";
@@ -9,28 +10,15 @@ function Books() {
     const { user } = useAuth();
 
     const [books, setBooks] = useState([]);
-
-    const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("");
-    const [sortBy, setSortBy] = useState("id");
-    const [direction, setDirection] = useState("asc");
-
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const isAdmin = user?.role === "ADMIN";
+    const isAdmin =
+        user?.role === "ADMIN";
 
-    /*
-     * Get unique categories from the books returned
-     * by the backend.
-     */
-    const categories = [
-        ...new Set(
-            books
-                .map(book => book.category)
-                .filter(Boolean)
-        )
-    ];
+    // ---------------------------------------------------------
+    // FETCH BOOKS
+    // ---------------------------------------------------------
 
     const fetchBooks = async () => {
 
@@ -39,28 +27,8 @@ function Books() {
             setLoading(true);
             setError("");
 
-            const params = {};
-
-            if (search.trim()) {
-                params.search = search.trim();
-            }
-
-            if (category) {
-                params.category = category;
-            }
-
-            if (sortBy) {
-                params.sortBy = sortBy;
-            }
-
-            if (direction) {
-                params.direction = direction;
-            }
-
             const response =
-                await api.get("/books", {
-                    params
-                });
+                await api.get("/books");
 
             setBooks(response.data);
 
@@ -71,7 +39,9 @@ function Books() {
                 error
             );
 
-            setError("Unable to load books.");
+            setError(
+                "Unable to load books."
+            );
 
         } finally {
 
@@ -80,19 +50,12 @@ function Books() {
     };
 
     useEffect(() => {
+        fetchBooks();
+    }, []);
 
-        const timer = setTimeout(() => {
-            fetchBooks();
-        }, 300);
-
-        return () => clearTimeout(timer);
-
-    }, [
-        search,
-        category,
-        sortBy,
-        direction
-    ]);
+    // ---------------------------------------------------------
+    // DELETE BOOK
+    // ---------------------------------------------------------
 
     const handleDelete = async (id) => {
 
@@ -107,7 +70,9 @@ function Books() {
 
         try {
 
-            await api.delete(`/books/${id}`);
+            await api.delete(
+                `/books/${id}`
+            );
 
             setBooks(
                 books.filter(
@@ -123,34 +88,36 @@ function Books() {
             );
 
             setError(
+                error.response?.data?.message ||
                 "Unable to delete book."
             );
         }
     };
 
-    const clearFilters = () => {
+    // ---------------------------------------------------------
+    // LOADING
+    // ---------------------------------------------------------
 
-        setSearch("");
-        setCategory("");
-        setSortBy("id");
-        setDirection("asc");
-    };
+    if (loading) {
+
+        return (
+            <div className="page-message">
+                <p>Loading books...</p>
+            </div>
+        );
+    }
 
     return (
         <div className="books-container">
 
-            {/* ================= HEADER ================= */}
-
             <div className="books-header">
 
                 <div>
-
                     <h2>Bookstore</h2>
 
                     <p>
-                        Discover your next great read
+                        Browse our collection of books
                     </p>
-
                 </div>
 
                 {isAdmin && (
@@ -164,198 +131,42 @@ function Books() {
 
             </div>
 
-
-            {/* ================= SEARCH & FILTERS ================= */}
-
-            <div className="book-filters">
-
-                <div className="search-box">
-
-                    <span className="search-icon">
-                        🔍
-                    </span>
-
-                    <input
-                        type="text"
-                        value={search}
-                        onChange={(event) =>
-                            setSearch(event.target.value)
-                        }
-                        placeholder="Search by title or author..."
-                    />
-
-                </div>
-
-
-                <div className="filter-group">
-
-                    <select
-                        value={category}
-                        onChange={(event) =>
-                            setCategory(event.target.value)
-                        }
-                    >
-
-                        <option value="">
-                            All Categories
-                        </option>
-
-                        {categories.map(
-                            currentCategory => (
-                                <option
-                                    key={currentCategory}
-                                    value={currentCategory}
-                                >
-                                    {currentCategory}
-                                </option>
-                            )
-                        )}
-
-                    </select>
-
-
-                    <select
-                        value={`${sortBy}-${direction}`}
-                        onChange={(event) => {
-
-                            const [newSortBy, newDirection] =
-                                event.target.value.split("-");
-
-                            setSortBy(newSortBy);
-                            setDirection(newDirection);
-
-                        }}
-                    >
-
-                        <option value="id-asc">
-                            Default
-                        </option>
-
-                        <option value="title-asc">
-                            Title: A → Z
-                        </option>
-
-                        <option value="title-desc">
-                            Title: Z → A
-                        </option>
-
-                        <option value="price-asc">
-                            Price: Low → High
-                        </option>
-
-                        <option value="price-desc">
-                            Price: High → Low
-                        </option>
-
-                        <option value="author-asc">
-                            Author: A → Z
-                        </option>
-
-                        <option value="quantity-desc">
-                            Stock: High → Low
-                        </option>
-
-                    </select>
-
-
-                    {(search || category) && (
-
-                        <button
-                            onClick={clearFilters}
-                            className="clear-filter-button"
-                        >
-                            Clear
-                        </button>
-
-                    )}
-
-                </div>
-
-            </div>
-
-
-            {/* ================= ERROR ================= */}
-
             {error && (
                 <p className="error-message">
                     {error}
                 </p>
             )}
 
-
-            {/* ================= LOADING ================= */}
-
-            {loading ? (
-
-                <div className="books-loading">
-
-                    <p>
-                        Loading books...
-                    </p>
-
-                </div>
-
-            ) : books.length === 0 ? (
-
-                /* ================= EMPTY ================= */
+            {books.length === 0 ? (
 
                 <div className="empty-books">
 
-                    <h3>
-                        No books found
-                    </h3>
+                    <h3>No books available</h3>
 
                     <p>
-                        Try changing your search or filters.
+                        {isAdmin
+                            ? "Add your first book to get started."
+                            : "There are no books available right now."
+                        }
                     </p>
-
-                    {(search || category) && (
-
-                        <button
-                            onClick={clearFilters}
-                            className="primary-button"
-                        >
-                            Clear Filters
-                        </button>
-
-                    )}
 
                 </div>
 
             ) : (
 
-                /* ================= BOOK GRID ================= */
+                <div className="books-grid">
 
-                <>
+                    {books.map(book => (
 
-                    <div className="books-result-info">
+                        <BookCard
+                            key={book.id}
+                            book={book}
+                            onDelete={handleDelete}
+                        />
 
-                        <p>
-                            {books.length}{" "}
-                            {books.length === 1
-                                ? "book"
-                                : "books"
-                            } found
-                        </p>
+                    ))}
 
-                    </div>
-
-                    <div className="books-grid">
-
-                        {books.map(book => (
-
-                            <BookCard
-                                key={book.id}
-                                book={book}
-                                onDelete={handleDelete}
-                            />
-
-                        ))}
-
-                    </div>
-
-                </>
-
+                </div>
             )}
 
         </div>
