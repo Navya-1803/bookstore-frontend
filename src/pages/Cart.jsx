@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useCart } from "../context/CartContext";
+import { useNavigate } from "react-router-dom";
+import { placeOrder } from "../services/orderService";
 
-function Cart() {
+function Cart()
+{
 
     const {
         cart,
@@ -14,6 +17,8 @@ function Cart() {
     } = useCart();
 
     const [error, setError] = useState("");
+
+    const navigate = useNavigate();
 
     // ---------------------------------------------------------
     // UPDATE QUANTITY
@@ -153,6 +158,53 @@ function Cart() {
             </div>
         );
     }
+
+    const handlePlaceOrder = async () => {
+
+        if (!cart?.items || cart.items.length === 0) {
+            alert("Your cart is empty.");
+            return;
+        }
+
+        const confirmed = window.confirm(
+            "Are you sure you want to place this order?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+
+            const order = await placeOrder();
+
+            alert(
+                `Order placed successfully!\nOrder ID: ${order.orderId}`
+            );
+
+            // Cart is cleared by backend after successful order
+            setCart({
+                cartId: cart.cartId,
+                items: [],
+                totalAmount: 0
+            });
+
+            navigate(`/orders/${order.orderId}`);
+
+        } catch (error) {
+
+            console.error(
+                "Place order error:",
+                error
+            );
+
+            const message =
+                error.response?.data?.message ||
+                "Unable to place order.";
+
+            alert(message);
+        }
+    };
 
     return (
         <div className="cart-container">
@@ -320,14 +372,10 @@ function Cart() {
                     </div>
 
                     <button
-                        className="checkout-button"
-                        onClick={() =>
-                            alert(
-                                "Checkout functionality will be added in the Order UC."
-                            )
-                        }
+                        className="place-order-button"
+                        onClick={handlePlaceOrder}
                     >
-                        Proceed to Checkout
+                         Place Order
                     </button>
 
                     <Link

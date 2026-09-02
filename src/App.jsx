@@ -16,6 +16,10 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./components/Layout";
 import Wishlist from "./pages/Wishlist";
 import CustomerDetails from "./pages/CustomerDetails.jsx";
+import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
+import AdminOrders from "./pages/AdminOrders";
+import AdminOrderDetails from "./pages/AdminOrderDetails";
 
 function App() {
 
@@ -117,6 +121,42 @@ function App() {
                     <Route
                         path="/customer-details"
                         element={<CustomerDetails />}
+                    />
+
+                    <Route
+                        path="/orders"
+                        element={
+                            <ProtectedRoute>
+                                <Orders />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/orders/:id"
+                        element={
+                            <ProtectedRoute>
+                                <OrderDetails />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/orders"
+                        element={
+                            <ProtectedRoute>
+                                <AdminOrders />
+                            </ProtectedRoute>
+                        }
+                    />
+
+                    <Route
+                        path="/admin/orders/:id"
+                        element={
+                            <ProtectedRoute>
+                                <AdminOrderDetails />
+                            </ProtectedRoute>
+                        }
                     />
 
                 </Routes>

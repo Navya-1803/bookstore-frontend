@@ -51,23 +51,42 @@ function Layout({ children }) {
 
                         <>
 
-                            <Link to="/books">
+                            {/* Books - available to both User and Admin */}
+
+                            <Link
+                                to="/books"
+                                className="nav-link"
+                            >
                                 Books
                             </Link>
 
+
+                            {/* USER NAVIGATION */}
+
                             {isUser && (
                                 <>
+
                                     <Link
                                         to="/cart"
                                         className="cart-nav-link"
                                     >
                                         Cart
+
                                         {cartItemCount > 0 && (
                                             <span className="cart-count">
-                    {cartItemCount}
-                </span>
+                                                {cartItemCount}
+                                            </span>
                                         )}
                                     </Link>
+
+
+                                    <Link
+                                        to="/orders"
+                                        className="nav-link"
+                                    >
+                                        Orders
+                                    </Link>
+
 
                                     <Link
                                         to="/wishlist"
@@ -76,24 +95,50 @@ function Layout({ children }) {
                                         Wishlist
                                     </Link>
 
+
                                     <Link
                                         to="/customer-details"
                                         className="nav-link"
                                     >
                                         My Details
                                     </Link>
+
                                 </>
                             )}
 
-                            <Link to="/profile">
+
+                            {/* ADMIN NAVIGATION */}
+
+                            {isAdmin && (
+                                <Link
+                                    to="/admin/orders"
+                                    className="nav-link"
+                                >
+                                    Orders
+                                </Link>
+                            )}
+
+
+                            {/* PROFILE */}
+
+                            <Link
+                                to="/profile"
+                                className="nav-link"
+                            >
                                 Profile
                             </Link>
+
+
+                            {/* ADMIN BADGE */}
 
                             {isAdmin && (
                                 <span className="admin-badge">
                                     ADMIN
                                 </span>
                             )}
+
+
+                            {/* LOGOUT */}
 
                             <button
                                 className="nav-logout"
@@ -108,11 +153,18 @@ function Layout({ children }) {
 
                         <>
 
-                            <Link to="/login">
+                            <Link
+                                to="/login"
+                                className="nav-link"
+                            >
                                 Login
                             </Link>
 
-                            <Link to="/register">
+
+                            <Link
+                                to="/register"
+                                className="nav-link"
+                            >
                                 Register
                             </Link>
 
@@ -123,6 +175,7 @@ function Layout({ children }) {
                 </nav>
 
             </header>
+
 
             <main className="main-content">
                 {children}
