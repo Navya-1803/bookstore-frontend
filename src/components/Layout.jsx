@@ -75,6 +75,13 @@ function Layout({ children }) {
                                     >
                                         Wishlist
                                     </Link>
+
+                                    <Link
+                                        to="/customer-details"
+                                        className="nav-link"
+                                    >
+                                        My Details
+                                    </Link>
                                 </>
                             )}
 

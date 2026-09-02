@@ -15,6 +15,7 @@ import EditBook from "./pages/EditBook";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./components/Layout";
 import Wishlist from "./pages/Wishlist";
+import CustomerDetails from "./pages/CustomerDetails.jsx";
 
 function App() {
 
@@ -111,6 +112,11 @@ function App() {
                     <Route
                         path="/wishlist"
                         element={<Wishlist />}
+                    />
+
+                    <Route
+                        path="/customer-details"
+                        element={<CustomerDetails />}
                     />
 
                 </Routes>
