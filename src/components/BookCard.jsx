@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import { addToWishlist } from "../services/wishlistService";
 
 function BookCard({ book, onDelete }) {
 
@@ -39,6 +40,44 @@ function BookCard({ book, onDelete }) {
                 "Unable to add book to cart.";
 
             alert(message);
+        }
+    };
+
+    /*Add to wishlist*/
+
+      const handleAddToWishlist = async () => {
+
+        try {
+
+            await addToWishlist(book.id);
+
+            alert("Book added to wishlist ❤️");
+
+        } catch (error) {
+
+            console.error(
+                "Wishlist error:",
+                error
+            );
+
+            if (error.response?.status === 401) {
+
+                alert(
+                    "Please login to add books to wishlist."
+                );
+
+            } else if (error.response?.status === 403) {
+
+                alert(
+                    "Only users can add books to wishlist."
+                );
+
+            } else {
+
+                alert(
+                    "Unable to add book to wishlist."
+                );
+            }
         }
     };
 
@@ -91,14 +130,10 @@ function BookCard({ book, onDelete }) {
                     <div className="customer-book-actions">
 
                         <button
-                            className="wishlist-button"
-                            onClick={() =>
-                                alert(
-                                    "Wishlist functionality coming soon."
-                                )
-                            }
+                            className="btn btn-outline-danger w-100 mb-2"
+                            onClick={handleAddToWishlist}
                         >
-                            ♡ Wishlist
+                            Add to Wishlist
                         </button>
 
                         <button
@@ -106,7 +141,7 @@ function BookCard({ book, onDelete }) {
                             onClick={handleAddToCart}
                             disabled={book.quantity === 0}
                         >
-                            🛒 Add to Cart
+                            Add to Cart
                         </button>
 
                         <button
@@ -151,6 +186,7 @@ function BookCard({ book, onDelete }) {
             </div>
         </div>
     );
+
 }
 
 export default BookCard;

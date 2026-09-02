@@ -10,12 +10,11 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Books from "./pages/Books";
 import Cart from "./pages/Cart";
-
 import AddBook from "./pages/AddBook";
 import EditBook from "./pages/EditBook";
-
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Layout from "./components/Layout";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
 
@@ -107,6 +106,11 @@ function App() {
                         element={
                             <Navigate to="/books" />
                         }
+                    />
+
+                    <Route
+                        path="/wishlist"
+                        element={<Wishlist />}
                     />
 
                 </Routes>

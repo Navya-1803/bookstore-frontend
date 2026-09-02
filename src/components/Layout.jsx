@@ -42,7 +42,7 @@ function Layout({ children }) {
                     to="/"
                     className="brand"
                 >
-                    📚 Bookstore
+                    Bookstore
                 </Link>
 
                 <nav>
@@ -56,17 +56,26 @@ function Layout({ children }) {
                             </Link>
 
                             {isUser && (
-                                <Link
-                                    to="/cart"
-                                    className="cart-nav-link"
-                                >
-                                    🛒 Cart
-                                    {cartItemCount > 0 && (
-                                        <span className="cart-count">
-                                            {cartItemCount}
-                                        </span>
-                                    )}
-                                </Link>
+                                <>
+                                    <Link
+                                        to="/cart"
+                                        className="cart-nav-link"
+                                    >
+                                        Cart
+                                        {cartItemCount > 0 && (
+                                            <span className="cart-count">
+                    {cartItemCount}
+                </span>
+                                        )}
+                                    </Link>
+
+                                    <Link
+                                        to="/wishlist"
+                                        className="nav-link"
+                                    >
+                                        Wishlist
+                                    </Link>
+                                </>
                             )}
 
                             <Link to="/profile">
