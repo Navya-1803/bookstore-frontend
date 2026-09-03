@@ -357,27 +357,23 @@ a {
 }
 
 .books-grid {
-    display: grid;
-
-    grid-template-columns:
-        repeat(auto-fill, minmax(260px, 1fr));
-
+    display: flex;
+    flex-direction: column;
     gap: 24px;
+    width: 100%;
 }
 
 .book-card {
-    background-color: #ffffff;
-
-    border-radius: 12px;
-
-    overflow: hidden;
-
-    box-shadow:
-            0 8px 20px rgba(0, 0, 0, 0.06);
-
-    transition:
-            transform 0.2s,
-            box-shadow 0.2s;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 280px;
+    padding: 24px;
+    gap: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    box-sizing: border-box;
 }
 
 .book-card:hover {
@@ -388,10 +384,11 @@ a {
 }
 
 .book-image {
-    width: 100%;
+    width: 180px;
     height: 250px;
-
     object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 6px;
 }
 
 .book-card-content {
